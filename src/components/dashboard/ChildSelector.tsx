@@ -35,7 +35,7 @@ export function ChildSelector() {
   }
 
   return (
-    <div className="space-y-2.5">
+    <div className="space-y-2">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-1.5">
           <Users className="h-4 w-4 text-indigo-600" />
@@ -49,7 +49,7 @@ export function ChildSelector() {
       </div>
 
       {/* Horizontal Carousel on Mobile / Grid on Tablet & Desktop */}
-      <div className="flex sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-2.5 overflow-x-auto no-scrollbar pb-1 -mx-3.5 px-3.5 sm:mx-0 sm:px-0 snap-x">
+      <div className="flex sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-2.5 overflow-x-auto no-scrollbar pb-1 snap-x">
         {children.map((child) => {
           const isSelected = child.id === selectedStudentId;
           const statusMeta = getStudentStatusMeta(child.status);
@@ -59,10 +59,10 @@ export function ChildSelector() {
               key={child.id}
               onClick={() => setSelectedStudentId(child.id)}
               className={cn(
-                "relative shrink-0 w-[240px] sm:w-auto flex items-center gap-3 p-3 rounded-2xl text-left transition-all cursor-pointer border select-none snap-start active:scale-[0.98]",
+                "relative shrink-0 w-[230px] sm:w-auto flex items-center gap-3 p-3 rounded-2xl text-left transition-colors cursor-pointer border select-none snap-start",
                 isSelected
-                  ? "bg-white border-indigo-600 shadow-sm ring-2 ring-indigo-600/15"
-                  : "bg-white border-slate-200/90 hover:border-slate-300"
+                  ? "bg-white border-indigo-600"
+                  : "bg-white border-slate-200 hover:border-slate-300"
               )}
             >
               {/* Selected indicator checkmark */}
@@ -78,7 +78,7 @@ export function ChildSelector() {
                   src={child.avatarUrl}
                   alt={`${child.firstName} ${child.lastName}`}
                   className={cn(
-                    "h-11 w-11 rounded-full object-cover border-2",
+                    "h-10 w-10 sm:h-11 sm:w-11 rounded-full object-cover border-2",
                     isSelected ? "border-indigo-600" : "border-slate-200"
                   )}
                 />
@@ -91,7 +91,7 @@ export function ChildSelector() {
               </div>
 
               {/* Details */}
-              <div className="flex-1 min-w-0 pr-3">
+              <div className="flex-1 min-w-0 pr-2">
                 <h3 className="text-xs font-bold text-slate-900 truncate">
                   {child.firstName} {child.lastName}
                 </h3>

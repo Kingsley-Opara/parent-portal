@@ -4,15 +4,10 @@ import React, { useState } from "react";
 import { 
   History, 
   CheckCircle, 
-  Download, 
-  FileText, 
-  CreditCard, 
-  Building2, 
-  ExternalLink 
+  FileText 
 } from "lucide-react";
 import { usePortalStore } from "@/store/usePortalStore";
 import { formatNaira, formatDate } from "@/lib/formatters";
-import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { TableSkeleton } from "@/components/ui/Skeleton";
 import { PaymentEmptyState } from "./PaymentEmptyState";
@@ -26,7 +21,7 @@ export function PaymentHistoryTable() {
 
   if (isLoading) {
     return (
-      <div className="rounded-3xl border border-slate-200/80 bg-white p-5 sm:p-7 shadow-xs">
+      <div className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-6">
         <div className="h-5 w-40 bg-slate-200 rounded mb-4 animate-pulse" />
         <TableSkeleton rows={3} />
       </div>
@@ -39,10 +34,10 @@ export function PaymentHistoryTable() {
 
   if (!paymentHistory || paymentHistory.length === 0) {
     return (
-      <div className="rounded-3xl border border-slate-200/80 bg-white p-5 sm:p-7 shadow-xs">
+      <div className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-6">
         <div className="flex items-center gap-2 mb-4">
           <History className="h-5 w-5 text-indigo-600" />
-          <h3 className="text-base font-bold text-slate-900 tracking-tight">Payment History</h3>
+          <h3 className="text-sm sm:text-base font-bold text-slate-900 tracking-tight">Payment History</h3>
         </div>
         <PaymentEmptyState />
       </div>
@@ -51,17 +46,17 @@ export function PaymentHistoryTable() {
 
   return (
     <>
-      <div className="rounded-3xl border border-slate-200/80 bg-white p-5 sm:p-7 shadow-xs">
-        <div className="flex items-center justify-between mb-5">
-          <div className="flex items-center gap-2.5">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-100 text-slate-700">
-              <History className="h-4.5 w-4.5" />
+      <div className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-6">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2">
+            <div className="flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-xl bg-slate-100 text-slate-700 shrink-0">
+              <History className="h-4 w-4" />
             </div>
             <div>
-              <h3 className="text-base font-bold text-slate-900 tracking-tight">
+              <h3 className="text-sm sm:text-base font-bold text-slate-900 tracking-tight">
                 Payment History
               </h3>
-              <p className="text-xs text-slate-500">
+              <p className="text-[11px] text-slate-500">
                 {paymentHistory.length} recorded transaction{paymentHistory.length > 1 ? "s" : ""}
               </p>
             </div>
@@ -72,7 +67,7 @@ export function PaymentHistoryTable() {
         <div className="hidden sm:block overflow-x-auto">
           <table className="w-full text-left text-xs">
             <thead>
-              <tr className="border-b border-slate-200/80 text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+              <tr className="border-b border-slate-200 text-[11px] font-bold text-slate-500 uppercase tracking-wider bg-slate-50">
                 <th className="py-3 px-3">Date</th>
                 <th className="py-3 px-3">Reference / Receipt</th>
                 <th className="py-3 px-3">Description</th>
@@ -84,7 +79,7 @@ export function PaymentHistoryTable() {
             </thead>
             <tbody className="divide-y divide-slate-100 font-medium">
               {paymentHistory.map((item) => (
-                <tr key={item.id} className="hover:bg-slate-50/70 transition-colors">
+                <tr key={item.id} className="hover:bg-slate-50 transition-colors">
                   <td className="py-3.5 px-3 text-slate-600 whitespace-nowrap">
                     {formatDate(item.transactionDate)}
                   </td>
@@ -98,9 +93,7 @@ export function PaymentHistoryTable() {
                     {item.description}
                   </td>
                   <td className="py-3.5 px-3 text-slate-600 capitalize">
-                    <span className="inline-flex items-center gap-1">
-                      {item.paymentMethod.replace("_", " ")}
-                    </span>
+                    {item.paymentMethod.replace("_", " ")}
                   </td>
                   <td className="py-3.5 px-3 text-right font-bold text-slate-900">
                     {formatNaira(item.amount)}
@@ -116,7 +109,7 @@ export function PaymentHistoryTable() {
                       size="sm"
                       variant="ghost"
                       onClick={() => setSelectedReceipt(item)}
-                      className="text-indigo-600 hover:text-indigo-800 hover:bg-indigo-50"
+                      className="text-indigo-600 hover:bg-indigo-50"
                       leftIcon={<FileText className="h-3.5 w-3.5" />}
                     >
                       Receipt
@@ -128,12 +121,12 @@ export function PaymentHistoryTable() {
           </table>
         </div>
 
-        {/* Mobile View: Responsive Card List (<640px / ~375px mobile friendly) */}
-        <div className="sm:hidden space-y-3">
+        {/* Mobile View: Clean Card List (<640px / ~375px mobile friendly) */}
+        <div className="sm:hidden space-y-2.5">
           {paymentHistory.map((item) => (
             <div
               key={item.id}
-              className="p-4 rounded-2xl border border-slate-100 bg-slate-50/50 space-y-2.5 text-xs"
+              className="p-3.5 rounded-xl border border-slate-200 bg-white space-y-2 text-xs"
             >
               <div className="flex justify-between items-start">
                 <div>
@@ -151,7 +144,7 @@ export function PaymentHistoryTable() {
 
               <p className="text-slate-600 leading-snug text-[11px]">{item.description}</p>
 
-              <div className="flex items-center justify-between pt-1 border-t border-slate-200/50">
+              <div className="flex items-center justify-between pt-2 border-t border-slate-100">
                 <span className="text-[10px] font-medium text-slate-500 capitalize">
                   {item.paymentMethod.replace("_", " ")}
                 </span>
@@ -180,7 +173,7 @@ export function PaymentHistoryTable() {
           maxWidth="md"
         >
           <div className="space-y-4 text-xs">
-            <div className="p-4 rounded-2xl bg-emerald-50/70 border border-emerald-200 text-center">
+            <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-center">
               <CheckCircle className="h-8 w-8 text-emerald-600 mx-auto mb-1.5" />
               <p className="text-sm font-bold text-emerald-950">Payment Confirmed</p>
               <p className="text-2xl font-black text-emerald-700 mt-1">
@@ -190,28 +183,28 @@ export function PaymentHistoryTable() {
 
             <div className="space-y-2 divide-y divide-slate-100 text-slate-700">
               <div className="flex justify-between pt-2">
-                <span className="text-slate-400 font-medium">Receipt No:</span>
+                <span className="text-slate-500 font-medium">Receipt No:</span>
                 <span className="font-mono font-bold text-slate-900">{selectedReceipt.receiptNumber}</span>
               </div>
               <div className="flex justify-between pt-2">
-                <span className="text-slate-400 font-medium">Transaction Reference:</span>
+                <span className="text-slate-500 font-medium">Reference:</span>
                 <span className="font-mono text-slate-700">{selectedReceipt.reference}</span>
               </div>
               <div className="flex justify-between pt-2">
-                <span className="text-slate-400 font-medium">Date & Time:</span>
+                <span className="text-slate-500 font-medium">Date & Time:</span>
                 <span>{new Date(selectedReceipt.transactionDate).toLocaleString("en-GB")}</span>
               </div>
               <div className="flex justify-between pt-2">
-                <span className="text-slate-400 font-medium">Payment Purpose:</span>
+                <span className="text-slate-500 font-medium">Purpose:</span>
                 <span className="text-right max-w-[200px] font-semibold">{selectedReceipt.description}</span>
               </div>
               <div className="flex justify-between pt-2">
-                <span className="text-slate-400 font-medium">Channel:</span>
+                <span className="text-slate-500 font-medium">Channel:</span>
                 <span className="capitalize">{selectedReceipt.channelDetails || selectedReceipt.paymentMethod}</span>
               </div>
             </div>
 
-            <div className="flex justify-end gap-2 pt-3 border-t border-slate-100">
+            <div className="flex justify-end pt-3 border-t border-slate-100">
               <Button size="sm" variant="outline" onClick={() => setSelectedReceipt(null)}>
                 Close
               </Button>

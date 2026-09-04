@@ -35,9 +35,9 @@ export function AcademicSummaryCard() {
 
   if (isLoading) {
     return (
-      <div className="rounded-2xl sm:rounded-3xl border border-slate-200 bg-white p-4 sm:p-6 shadow-xs space-y-4">
+      <div className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-6 space-y-4">
         <div className="h-5 w-44 bg-slate-200 rounded animate-pulse" />
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3.5">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
           {Array.from({ length: 4 }).map((_, i) => (
             <div key={i} className="h-20 bg-slate-100 rounded-xl animate-pulse" />
           ))}
@@ -61,11 +61,11 @@ export function AcademicSummaryCard() {
 
   return (
     <>
-      <div className="rounded-2xl sm:rounded-3xl border border-slate-200 bg-white p-4 sm:p-6 shadow-xs">
+      <div className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-6">
         {/* Header & Term Selector */}
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3.5 pb-4 border-b border-slate-100">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 pb-4 border-b border-slate-100">
           <div className="flex items-center gap-2.5">
-            <div className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-xl bg-indigo-50 text-indigo-700 border border-indigo-100 shrink-0">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-50 text-indigo-700 border border-indigo-100 shrink-0">
               <GraduationCap className="h-5 w-5" />
             </div>
             <div>
@@ -78,9 +78,9 @@ export function AcademicSummaryCard() {
             </div>
           </div>
 
-          {/* Term & Session Filters & PDF Buttons (Mobile Optimized) */}
+          {/* Session & Term Dropdowns and PDF Buttons */}
           <div className="flex flex-col sm:flex-row sm:items-center gap-2 w-full lg:w-auto">
-            {/* Dropdowns in a 2-column grid on mobile */}
+            {/* 2-column Grid for Selects on Mobile */}
             <div className="grid grid-cols-2 gap-2 sm:flex sm:items-center">
               <select
                 value={selectedSession}
@@ -109,14 +109,14 @@ export function AcademicSummaryCard() {
 
             {/* PDF Action Buttons */}
             {academicResult && (
-              <div className="flex items-center gap-2">
+              <div className="grid grid-cols-2 gap-2 sm:flex sm:items-center">
                 <Button
                   size="sm"
                   variant="outline"
                   onClick={handlePreviewPdf}
                   isLoading={isPreviewLoading}
                   leftIcon={<Eye className="h-3.5 w-3.5" />}
-                  className="flex-1 sm:flex-initial text-xs h-9"
+                  className="w-full sm:w-auto text-xs h-9 font-medium"
                 >
                   Preview PDF
                 </Button>
@@ -127,7 +127,7 @@ export function AcademicSummaryCard() {
                   onClick={downloadCurrentReportCard}
                   isLoading={isPdfGenerating}
                   leftIcon={<Download className="h-3.5 w-3.5" />}
-                  className="flex-1 sm:flex-initial text-xs h-9 bg-indigo-600 hover:bg-indigo-700"
+                  className="w-full sm:w-auto text-xs h-9 font-medium bg-indigo-600 hover:bg-indigo-700 text-white"
                 >
                   Download PDF
                 </Button>
@@ -138,26 +138,26 @@ export function AcademicSummaryCard() {
 
         {academicResult ? (
           <>
-            {/* 4 Summary Highlight Cards */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3.5 my-4 sm:my-5">
+            {/* 4 Summary Highlight Cards (Solid colors, no raster bugs) */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3.5 my-4">
               {/* Position in Class */}
-              <div className="p-3.5 rounded-2xl bg-amber-50/70 border border-amber-200/80">
+              <div className="p-3.5 rounded-xl bg-amber-50 border border-amber-200">
                 <div className="flex items-center justify-between">
                   <span className="text-[10px] font-bold uppercase tracking-wider text-amber-900">
-                    Class Position
+                    Position
                   </span>
                   <Trophy className="h-3.5 w-3.5 text-amber-600" />
                 </div>
                 <p className="text-xl sm:text-2xl font-black text-amber-950 mt-1">
                   {getOrdinal(academicResult.classPosition)}
                 </p>
-                <p className="text-[10px] text-amber-800/80 font-medium">
+                <p className="text-[10px] text-amber-800 font-medium">
                   of {academicResult.totalStudentsInClass} students
                 </p>
               </div>
 
               {/* Overall Average */}
-              <div className="p-3.5 rounded-2xl bg-emerald-50/70 border border-emerald-200/80">
+              <div className="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200">
                 <div className="flex items-center justify-between">
                   <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-900">
                     Average
@@ -167,15 +167,15 @@ export function AcademicSummaryCard() {
                 <p className="text-xl sm:text-2xl font-black text-emerald-950 mt-1">
                   {academicResult.overallAverage.toFixed(1)}%
                 </p>
-                <p className="text-[10px] text-emerald-800/80 font-medium truncate">
+                <p className="text-[10px] text-emerald-800 font-medium truncate">
                   Total: {academicResult.totalScore}/{academicResult.obtainableScore}
                 </p>
               </div>
 
               {/* Class Highest */}
-              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
+              <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-600">
                     Highest
                   </span>
                   <Award className="h-3.5 w-3.5 text-indigo-500" />
@@ -183,15 +183,15 @@ export function AcademicSummaryCard() {
                 <p className="text-xl sm:text-2xl font-black text-slate-800 mt-1">
                   {academicResult.classHighestAverage.toFixed(1)}%
                 </p>
-                <p className="text-[10px] text-slate-400 font-medium">
+                <p className="text-[10px] text-slate-500 font-medium">
                   Benchmark
                 </p>
               </div>
 
               {/* Total Subjects */}
-              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
+              <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-600">
                     Subjects
                   </span>
                   <FileCheck className="h-3.5 w-3.5 text-slate-500" />
@@ -199,14 +199,14 @@ export function AcademicSummaryCard() {
                 <p className="text-xl sm:text-2xl font-black text-slate-800 mt-1">
                   {academicResult.subjects.length}
                 </p>
-                <p className="text-[10px] text-slate-400 font-medium">
+                <p className="text-[10px] text-slate-500 font-medium">
                   Evaluated
                 </p>
               </div>
             </div>
 
-            {/* Remarks Accordion/Box */}
-            <div className="rounded-2xl bg-slate-50 border border-slate-200/80 p-3.5 text-xs space-y-2">
+            {/* Remarks Box */}
+            <div className="rounded-xl bg-slate-50 border border-slate-200 p-3.5 text-xs space-y-2">
               <div>
                 <span className="font-bold text-slate-800">Class Teacher: </span>
                 <span className="text-slate-600 italic text-[11px]">"{academicResult.classTeacherRemark}"</span>

@@ -24,7 +24,7 @@ export function ResultsTable() {
 
   if (isLoading) {
     return (
-      <div className="rounded-2xl sm:rounded-3xl border border-slate-200 bg-white p-4 sm:p-6 shadow-xs">
+      <div className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-6">
         <div className="h-5 w-44 bg-slate-200 rounded mb-4 animate-pulse" />
         <TableSkeleton rows={5} />
       </div>
@@ -37,7 +37,7 @@ export function ResultsTable() {
 
   if (!academicResult || !academicResult.subjects || academicResult.subjects.length === 0) {
     return (
-      <div className="rounded-2xl sm:rounded-3xl border border-slate-200 bg-white p-4 sm:p-6 shadow-xs">
+      <div className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-6">
         <div className="flex items-center gap-2 mb-4">
           <BookOpen className="h-5 w-5 text-indigo-600" />
           <h3 className="text-sm sm:text-base font-bold text-slate-900 tracking-tight">Subject Breakdown</h3>
@@ -49,7 +49,7 @@ export function ResultsTable() {
 
   return (
     <>
-      <div className="rounded-2xl sm:rounded-3xl border border-slate-200 bg-white p-4 sm:p-6 shadow-xs">
+      <div className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-6">
         {/* Table Header & View Toggles */}
         <div className="flex items-center justify-between gap-3 mb-4">
           <div className="flex items-center gap-2">
@@ -72,7 +72,7 @@ export function ResultsTable() {
               <button
                 onClick={() => setMobileViewMode("cards")}
                 className={`flex items-center gap-1 px-2 py-1 text-[10px] font-bold rounded-md transition-colors ${
-                  mobileViewMode === "cards" ? "bg-white text-indigo-700 shadow-xs" : "text-slate-500"
+                  mobileViewMode === "cards" ? "bg-white text-indigo-700" : "text-slate-500"
                 }`}
               >
                 <LayoutList className="h-3 w-3" />
@@ -81,7 +81,7 @@ export function ResultsTable() {
               <button
                 onClick={() => setMobileViewMode("table")}
                 className={`flex items-center gap-1 px-2 py-1 text-[10px] font-bold rounded-md transition-colors ${
-                  mobileViewMode === "table" ? "bg-white text-indigo-700 shadow-xs" : "text-slate-500"
+                  mobileViewMode === "table" ? "bg-white text-indigo-700" : "text-slate-500"
                 }`}
               >
                 <TableIcon className="h-3 w-3" />
@@ -104,7 +104,7 @@ export function ResultsTable() {
         <div className={`overflow-x-auto ${mobileViewMode === "cards" ? "hidden sm:block" : "block"}`}>
           <table className="w-full text-left text-xs">
             <thead>
-              <tr className="border-b border-slate-200 text-[11px] font-bold text-slate-400 uppercase tracking-wider bg-slate-50">
+              <tr className="border-b border-slate-200 text-[11px] font-bold text-slate-500 uppercase tracking-wider bg-slate-50">
                 <th className="py-3 px-3 rounded-l-xl">Subject</th>
                 <th className="py-3 px-2.5 text-center">CA1 (20)</th>
                 <th className="py-3 px-2.5 text-center">CA2 (20)</th>
@@ -178,7 +178,7 @@ export function ResultsTable() {
               return (
                 <div
                   key={sub.id}
-                  className="rounded-2xl border border-slate-200 bg-white p-3.5 space-y-2.5 shadow-2xs"
+                  className="rounded-xl border border-slate-200 bg-white p-3.5 space-y-2.5"
                 >
                   {/* Card Header: Subject Name & Grade */}
                   <div className="flex justify-between items-start">
@@ -195,19 +195,19 @@ export function ResultsTable() {
 
                   {/* Assessment Scores Grid */}
                   <div className="grid grid-cols-4 gap-1.5 text-center text-xs">
-                    <div className="bg-slate-50 p-1.5 rounded-xl border border-slate-100">
-                      <span className="text-[9px] text-slate-400 font-bold block uppercase">CA1</span>
+                    <div className="bg-slate-50 p-1.5 rounded-xl border border-slate-200">
+                      <span className="text-[9px] text-slate-500 font-bold block uppercase">CA1</span>
                       <span className="font-bold text-slate-700">{sub.ca1}/20</span>
                     </div>
-                    <div className="bg-slate-50 p-1.5 rounded-xl border border-slate-100">
-                      <span className="text-[9px] text-slate-400 font-bold block uppercase">CA2</span>
+                    <div className="bg-slate-50 p-1.5 rounded-xl border border-slate-200">
+                      <span className="text-[9px] text-slate-500 font-bold block uppercase">CA2</span>
                       <span className="font-bold text-slate-700">{sub.ca2}/20</span>
                     </div>
-                    <div className="bg-slate-50 p-1.5 rounded-xl border border-slate-100">
-                      <span className="text-[9px] text-slate-400 font-bold block uppercase">Exam</span>
+                    <div className="bg-slate-50 p-1.5 rounded-xl border border-slate-200">
+                      <span className="text-[9px] text-slate-500 font-bold block uppercase">Exam</span>
                       <span className="font-bold text-slate-700">{sub.exam}/60</span>
                     </div>
-                    <div className="bg-indigo-50 p-1.5 rounded-xl border border-indigo-100">
+                    <div className="bg-indigo-50 p-1.5 rounded-xl border border-indigo-200">
                       <span className="text-[9px] text-indigo-700 font-bold block uppercase">Total</span>
                       <span className="font-black text-indigo-950">{sub.total}%</span>
                     </div>
