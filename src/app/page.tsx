@@ -5,7 +5,7 @@ import { AuthGuard } from "@/components/auth/AuthGuard";
 import { Header } from "@/components/layout/Header";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { MobileNav } from "@/components/layout/MobileNav";
-import { DemoToolbar } from "@/components/layout/DemoToolbar";
+
 import { ParentWelcome } from "@/components/dashboard/ParentWelcome";
 import { ChildSelector } from "@/components/dashboard/ChildSelector";
 import { StudentStatusBanner } from "@/components/dashboard/StudentStatusBanner";
@@ -16,6 +16,7 @@ import { AcademicSummaryCard } from "@/components/results/AcademicSummaryCard";
 import { ResultsTable } from "@/components/results/ResultsTable";
 import { usePortalStore } from "@/store/usePortalStore";
 import { ErrorCard } from "@/components/shared/ErrorCard";
+
 
 export default function DashboardPage() {
   const { initializePortal, error, retry, children } = usePortalStore();
@@ -66,10 +67,8 @@ export default function DashboardPage() {
 
         {/* Mobile Navigation Drawer & Bottom Bar */}
         <MobileNav />
-
-        {/* Live Evaluator Controls Toolbar */}
-        <DemoToolbar />
       </div>
     </AuthGuard>
   );
 }
+

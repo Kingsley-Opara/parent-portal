@@ -5,7 +5,6 @@ import { AuthGuard } from "@/components/auth/AuthGuard";
 import { Header } from "@/components/layout/Header";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { MobileNav } from "@/components/layout/MobileNav";
-import { DemoToolbar } from "@/components/layout/DemoToolbar";
 import { ChildSelector } from "@/components/dashboard/ChildSelector";
 import { StudentStatusBanner } from "@/components/dashboard/StudentStatusBanner";
 import { FeeSummaryCard } from "@/components/fees/FeeSummaryCard";
@@ -58,8 +57,8 @@ export default function FeesPage() {
         </div>
 
         <MobileNav />
-        <DemoToolbar />
       </div>
     </AuthGuard>
   );
 }
+

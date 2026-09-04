@@ -34,11 +34,17 @@ export class ResultsService {
     const result = MOCK_ACADEMIC_RESULTS[studentId];
     if (!result) return null;
 
-    return {
-      ...result,
-      academicSession: session || result.academicSession,
-      term: (term as 'First Term' | 'Second Term' | 'Third Term') || result.term,
-    };
+    // Check if the requested session and term match the published result
+    const targetSession = session || result.academicSession;
+    const targetTerm = term || result.term;
+
+    if (result.academicSession !== targetSession || result.term !== targetTerm) {
+      // Results for this specific term/session are not yet published / under moderation
+      return null;
+    }
+
+    return result;
+
   }
 
   /**

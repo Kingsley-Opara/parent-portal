@@ -8,9 +8,6 @@ import {
   Download, 
   Eye, 
   Award, 
-  Loader2,
-  Calendar,
-  CheckCircle2,
   FileCheck
 } from "lucide-react";
 import { usePortalStore } from "@/store/usePortalStore";
@@ -36,7 +33,18 @@ export function AcademicSummaryCard() {
   const [previewPdfUri, setPreviewPdfUri] = useState<string | null>(null);
   const [isPreviewLoading, setIsPreviewLoading] = useState(false);
 
-  if (isLoading || !academicResult) return null;
+  if (isLoading) {
+    return (
+      <div className="rounded-3xl border border-slate-200/80 bg-white p-5 sm:p-7 shadow-xs space-y-4">
+        <div className="h-6 w-48 bg-slate-200 rounded animate-pulse" />
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <div key={i} className="h-20 bg-slate-100 rounded-2xl animate-pulse" />
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   const handlePreviewPdf = async () => {
     if (!selectedStudentId) return;
@@ -65,7 +73,7 @@ export function AcademicSummaryCard() {
                 Academic Performance
               </h3>
               <p className="text-xs text-slate-500 mt-0.5">
-                {academicResult.className} • {academicResult.academicSession} ({academicResult.term})
+                {academicResult ? `${academicResult.className} • ${selectedSession} (${selectedTerm})` : `${selectedSession} • ${selectedTerm}`}
               </p>
             </div>
           </div>
@@ -96,110 +104,123 @@ export function AcademicSummaryCard() {
               ))}
             </select>
 
-            {/* PDF Action Buttons */}
-            <Button
-              size="sm"
-              variant="outline"
-              onClick={handlePreviewPdf}
-              isLoading={isPreviewLoading}
-              leftIcon={<Eye className="h-3.5 w-3.5" />}
-              className="hidden sm:inline-flex"
-            >
-              Preview PDF
-            </Button>
+            {/* PDF Action Buttons - Available when results exist */}
+            {academicResult && (
+              <>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={handlePreviewPdf}
+                  isLoading={isPreviewLoading}
+                  leftIcon={<Eye className="h-3.5 w-3.5" />}
+                  className="hidden sm:inline-flex"
+                >
+                  Preview PDF
+                </Button>
 
-            <Button
-              size="sm"
-              variant="secondary"
-              onClick={downloadCurrentReportCard}
-              isLoading={isPdfGenerating}
-              leftIcon={<Download className="h-3.5 w-3.5" />}
-            >
-              Download PDF
-            </Button>
+                <Button
+                  size="sm"
+                  variant="secondary"
+                  onClick={downloadCurrentReportCard}
+                  isLoading={isPdfGenerating}
+                  leftIcon={<Download className="h-3.5 w-3.5" />}
+                >
+                  Download PDF
+                </Button>
+              </>
+            )}
           </div>
         </div>
 
-        {/* 4 Summary Highlight Cards */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5 my-6">
-          {/* Position in Class */}
-          <div className="p-4 rounded-2xl bg-amber-50/60 border border-amber-200/80">
-            <div className="flex items-center justify-between">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-amber-900">
-                Class Position
-              </span>
-              <Trophy className="h-4 w-4 text-amber-600" />
-            </div>
-            <p className="text-2xl font-black text-amber-950 mt-1">
-              {getOrdinal(academicResult.classPosition)}
-            </p>
-            <p className="text-[10px] text-amber-800/80 mt-0.5 font-medium">
-              out of {academicResult.totalStudentsInClass} students
-            </p>
-          </div>
+        {academicResult ? (
+          <>
+            {/* 4 Summary Highlight Cards */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5 my-6">
+              {/* Position in Class */}
+              <div className="p-4 rounded-2xl bg-amber-50/60 border border-amber-200/80">
+                <div className="flex items-center justify-between">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-amber-900">
+                    Class Position
+                  </span>
+                  <Trophy className="h-4 w-4 text-amber-600" />
+                </div>
+                <p className="text-2xl font-black text-amber-950 mt-1">
+                  {getOrdinal(academicResult.classPosition)}
+                </p>
+                <p className="text-[10px] text-amber-800/80 mt-0.5 font-medium">
+                  out of {academicResult.totalStudentsInClass} students
+                </p>
+              </div>
 
-          {/* Overall Average */}
-          <div className="p-4 rounded-2xl bg-emerald-50/60 border border-emerald-200/80">
-            <div className="flex items-center justify-between">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-900">
-                Overall Average
-              </span>
-              <Percent className="h-4 w-4 text-emerald-600" />
-            </div>
-            <p className="text-2xl font-black text-emerald-950 mt-1">
-              {academicResult.overallAverage.toFixed(1)}%
-            </p>
-            <p className="text-[10px] text-emerald-800/80 mt-0.5 font-medium">
-              Aggregate: {academicResult.totalScore}/{academicResult.obtainableScore}
-            </p>
-          </div>
+              {/* Overall Average */}
+              <div className="p-4 rounded-2xl bg-emerald-50/60 border border-emerald-200/80">
+                <div className="flex items-center justify-between">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-900">
+                    Overall Average
+                  </span>
+                  <Percent className="h-4 w-4 text-emerald-600" />
+                </div>
+                <p className="text-2xl font-black text-emerald-950 mt-1">
+                  {academicResult.overallAverage.toFixed(1)}%
+                </p>
+                <p className="text-[10px] text-emerald-800/80 mt-0.5 font-medium">
+                  Aggregate: {academicResult.totalScore}/{academicResult.obtainableScore}
+                </p>
+              </div>
 
-          {/* Class Highest */}
-          <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200">
-            <div className="flex items-center justify-between">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500">
-                Class Highest
-              </span>
-              <Award className="h-4 w-4 text-indigo-500" />
-            </div>
-            <p className="text-2xl font-black text-slate-800 mt-1">
-              {academicResult.classHighestAverage.toFixed(1)}%
-            </p>
-            <p className="text-[10px] text-slate-400 mt-0.5 font-medium">
-              Class benchmark
-            </p>
-          </div>
+              {/* Class Highest */}
+              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200">
+                <div className="flex items-center justify-between">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500">
+                    Class Highest
+                  </span>
+                  <Award className="h-4 w-4 text-indigo-500" />
+                </div>
+                <p className="text-2xl font-black text-slate-800 mt-1">
+                  {academicResult.classHighestAverage.toFixed(1)}%
+                </p>
+                <p className="text-[10px] text-slate-400 mt-0.5 font-medium">
+                  Class benchmark
+                </p>
+              </div>
 
-          {/* Total Subjects */}
-          <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200">
-            <div className="flex items-center justify-between">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500">
-                Total Subjects
-              </span>
-              <FileCheck className="h-4 w-4 text-slate-500" />
+              {/* Total Subjects */}
+              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200">
+                <div className="flex items-center justify-between">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500">
+                    Total Subjects
+                  </span>
+                  <FileCheck className="h-4 w-4 text-slate-500" />
+                </div>
+                <p className="text-2xl font-black text-slate-800 mt-1">
+                  {academicResult.subjects.length}
+                </p>
+                <p className="text-[10px] text-slate-400 mt-0.5 font-medium">
+                  Evaluated this term
+                </p>
+              </div>
             </div>
-            <p className="text-2xl font-black text-slate-800 mt-1">
-              {academicResult.subjects.length}
-            </p>
-            <p className="text-[10px] text-slate-400 mt-0.5 font-medium">
-              Evaluated this term
-            </p>
-          </div>
-        </div>
 
-        {/* Remarks Accordion/Box */}
-        <div className="rounded-2xl bg-slate-50/70 border border-slate-100 p-4 text-xs space-y-2">
-          <div>
-            <span className="font-bold text-slate-800">Class Teacher's Remark: </span>
-            <span className="text-slate-600 italic">"{academicResult.classTeacherRemark}"</span>
-            <span className="block text-[10px] text-slate-400 mt-0.5 font-medium">— {academicResult.classTeacherName}</span>
+            {/* Remarks Accordion/Box */}
+            <div className="rounded-2xl bg-slate-50/70 border border-slate-100 p-4 text-xs space-y-2">
+              <div>
+                <span className="font-bold text-slate-800">Class Teacher's Remark: </span>
+                <span className="text-slate-600 italic">"{academicResult.classTeacherRemark}"</span>
+                <span className="block text-[10px] text-slate-400 mt-0.5 font-medium">— {academicResult.classTeacherName}</span>
+              </div>
+              <div className="pt-2 border-t border-slate-200/50">
+                <span className="font-bold text-slate-800">Principal's Endorsement: </span>
+                <span className="text-slate-600 italic">"{academicResult.principalRemark}"</span>
+                <span className="block text-[10px] text-slate-400 mt-0.5 font-medium">— {academicResult.principalName}</span>
+              </div>
+            </div>
+          </>
+        ) : (
+          <div className="py-6 text-center text-xs text-slate-500">
+            <p className="font-semibold text-slate-700 text-sm">No published performance records for {selectedTerm}, {selectedSession}.</p>
+            <p className="text-xs text-slate-400 mt-1">Assessment scores for this term are currently undergoing academic board moderation.</p>
           </div>
-          <div className="pt-2 border-t border-slate-200/50">
-            <span className="font-bold text-slate-800">Principal's Endorsement: </span>
-            <span className="text-slate-600 italic">"{academicResult.principalRemark}"</span>
-            <span className="block text-[10px] text-slate-400 mt-0.5 font-medium">— {academicResult.principalName}</span>
-          </div>
-        </div>
+        )}
       </div>
 
       {/* PDF Report Card Preview Modal */}
@@ -207,8 +228,8 @@ export function AcademicSummaryCard() {
         <Modal
           isOpen={!!previewPdfUri}
           onClose={() => setPreviewPdfUri(null)}
-          title={`Official Report Card Preview • ${academicResult.studentName}`}
-          description={`${academicResult.academicSession} - ${academicResult.term}`}
+          title={`Official Report Card Preview • ${academicResult?.studentName || ""}`}
+          description={`${selectedSession} - ${selectedTerm}`}
           maxWidth="4xl"
         >
           <div className="space-y-4">
