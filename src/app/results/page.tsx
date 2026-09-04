@@ -27,8 +27,9 @@ export default function ResultsPage() {
         <div className="flex-1 flex max-w-7xl w-full mx-auto">
           <Sidebar />
 
-          <main className="flex-1 p-4 sm:p-6 lg:p-8 space-y-6 sm:space-y-8 max-w-full min-w-0 overflow-hidden">
+          <main className="flex-1 px-3.5 py-4 sm:p-6 lg:p-8 space-y-4 sm:space-y-6 max-w-full min-w-0 pb-28 sm:pb-12">
             {/* Breadcrumb / Title */}
+
             <div>
               <div className="flex items-center gap-2 text-xs font-semibold text-indigo-600 mb-1">
                 <GraduationCap className="h-4 w-4" />
